@@ -41,6 +41,7 @@ RUN \
 		-e "s,;listen.owner = nobody,listen.owner = www,g" \
 		-e "s,;listen.group = nobody,listen.group = www,g" \
 		-e "s,listen = 127.0.0.1:9000,listen = 0.0.0.0:9000,g" \
+		-e "s,;clear_env = no,clear_env = no,g" \
 		/etc/php5/php-fpm.conf \
 	&& sed -i "s,;extension=xcache.so,extension=xcache.so," /etc/php5/conf.d/xcache.ini \
 	# forward logs to docker log collector
