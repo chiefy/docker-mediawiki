@@ -57,8 +57,6 @@ USER www
 
 WORKDIR /var/www/mediawiki
 
-VOLUME /var/www/mediawiki
-
 EXPOSE 9000
 
 ENTRYPOINT ["php-fpm","-F"]

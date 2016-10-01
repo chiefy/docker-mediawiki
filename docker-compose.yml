@@ -4,6 +4,8 @@ services:
 
   mediawiki:
       build: .
+      volumes:
+        - "/var/www/mediawiki"
 #     volumes:
 #        - "./www/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
 #        - "./www/images:/var/www/mediawiki/images"
