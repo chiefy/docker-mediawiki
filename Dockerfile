@@ -25,6 +25,7 @@ RUN \
 		php5-intl \
 		php5-mcrypt \
 		php5-common \
+		php5-xmlreader \
 		imagemagick \
 		diffutils \
 		git \
