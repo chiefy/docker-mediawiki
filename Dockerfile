@@ -25,6 +25,7 @@ RUN \
 		php5-intl \
 		php5-mcrypt \
 		php5-common \
+		imagemagick \
 		diffutils \
 		git \
 	&& rm -rf /var/cache/apk/* \
