@@ -6,7 +6,7 @@ A working docker-compose orchestration of PHP7-fpm / nginx / mysql and mediawiki
 
 ## About
 
-I have been looking around for a decent docker-based orchestration of Mediawiki, yet haven't found one. As an exercise I got Mediawiki running on lightweight Alpine linux based docker images of latest nginx, and php5-fpm w/ Mediawiki. This setup uses MySQL for persistence, but you can use any of the engines that mediawiki supports (postgres, sqlite etc.).
+I have been looking around for a decent docker-based orchestration of Mediawiki, yet haven't found one. As an exercise I got Mediawiki running on lightweight Alpine Linux based docker images of latest nginx, and php7-fpm w/ Mediawiki. This setup uses MySQL for persistence, but you can use any of the engines that mediawiki supports (postgres, sqlite etc.).
 
 ## Usage
 
