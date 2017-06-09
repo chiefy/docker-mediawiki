@@ -2,7 +2,7 @@
 
 [![Docker Repository on Quay](https://quay.io/repository/chiefy/alpine-php-mediawiki/status "Docker Repository on Quay")](https://quay.io/repository/chiefy/alpine-php-mediawiki)
 
-A working docker-compose orchestration of PHP5-fpm / nginx / mysql and mediawiki
+A working docker-compose orchestration of PHP7-fpm / nginx / mysql and mediawiki
 
 ## About
 
