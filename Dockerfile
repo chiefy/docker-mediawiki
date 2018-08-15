@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.8
 
 RUN apk add --no-cache \
 		php7 \
@@ -21,6 +21,7 @@ RUN apk add --no-cache \
 		php7-phar \
 		php7-mbstring \
 		php7-session \
+		php7-fileinfo \
 		diffutils \
 		git \
 	&& apk add --no-cache --virtual=.build-dependencies wget ca-certificates \
@@ -49,7 +50,7 @@ RUN apk add --no-cache \
 	&& ln -sf /dev/stderr /var/log/php7/error.log \
 	&& mkdir -p /var/www \
 	&& cd /tmp \
-	&& wget https://releases.wikimedia.org/mediawiki/1.30/mediawiki-core-1.30.0.tar.gz \
+	&& wget -nv https://releases.wikimedia.org/mediawiki/1.31/mediawiki-core-1.31.0.tar.gz \
 	&& tar -C /var/www -xzvf ./mediawiki*.tar.gz \
 	&& mv /var/www/mediawiki* /var/www/mediawiki \
 	&& rm -rf /tmp/mediawiki* \

@@ -1,32 +1,31 @@
-version: '2'
+version: '3.2'
 
 services:
 
   mediawiki:
       build: .
       volumes:
-        - "/var/www/mediawiki"
-#     volumes:
+        - "mediawiki:/var/www/mediawiki"
 #        - "./www/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
 #        - "./www/images:/var/www/mediawiki/images"
-      links:
-        - db
 
   nginx:
-      image: chiefy/alpine-nginx:1.10.1
+      image: nginx:1.15.2-alpine
       volumes:
-        - "./etc/nginx.conf:/etc/nginx/conf/nginx.conf"
-      volumes_from:
-        - mediawiki
-      links:
+        - "./etc/nginx.conf:/etc/nginx/nginx.conf"
+        - "mediawiki:/var/www/mediawiki"
+      depends_on: 
         - mediawiki
       ports:
         - "80:80"
 
   db:
-      image: mysql:latest
-#     volumes:
-#       - "./backup/backup.sql.gz:/docker-entrypoint-initdb.d/mediawiki.sql.gz"
+      image: mysql/mysql-server:latest
       environment:
-        MYSQL_ROOT_PASSWORD: poopypants
-        MYSQL_DATABASE: mediawiki
+        - "MYSQL_USER=mediawiki"
+        - "MYSQL_PASSWORD=mediawiki"
+        - "MYSQL_DATABASE=mediawiki"
+        - "MYSQL_ROOT_PASSWORD=mediawiki"
+
+volumes:
+  mediawiki:
