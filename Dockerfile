@@ -50,7 +50,7 @@ RUN apk add --no-cache \
 	&& ln -sf /dev/stderr /var/log/php7/error.log \
 	&& mkdir -p /var/www \
 	&& cd /tmp \
-	&& wget -nv https://releases.wikimedia.org/mediawiki/1.31/mediawiki-core-1.31.0.tar.gz \
+	&& wget -nv https://releases.wikimedia.org/mediawiki/1.31/mediawiki-1.31.0.tar.gz \
 	&& tar -C /var/www -xzvf ./mediawiki*.tar.gz \
 	&& mv /var/www/mediawiki* /var/www/mediawiki \
 	&& rm -rf /tmp/mediawiki* \
