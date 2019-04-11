@@ -10,7 +10,7 @@ services:
 #        - "./www/images:/var/www/mediawiki/images"
 
   nginx:
-      image: nginx:1.15.2-alpine
+      image: nginx:stable-alpine
       volumes:
         - "./etc/nginx.conf:/etc/nginx/nginx.conf"
         - "mediawiki:/var/www/mediawiki"
@@ -20,7 +20,8 @@ services:
         - "80:80"
 
   db:
-      image: mysql/mysql-server:latest
+      image: mariadb:latest
+      restart: always
       environment:
         - "MYSQL_USER=mediawiki"
         - "MYSQL_PASSWORD=mediawiki"
