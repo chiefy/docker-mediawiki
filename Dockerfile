@@ -1,5 +1,9 @@
 FROM alpine:latest
 
+ARG MW_VERSION
+ARG MW_PATCH_VERSION
+ARG COMPOSER_HASH
+
 RUN apk add --no-cache \
 	php7 \
 	php7-curl \
