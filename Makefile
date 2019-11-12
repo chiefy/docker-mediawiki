@@ -1,6 +1,14 @@
+include .env 
+
 repo=quay.io/chiefy/alpine-php-mediawiki
-version=1.32.0
 
 .PHONY: build
 build:
-	docker build -t $(repo):$(version) .
+	COMPOSER_HASH=$(COMPOSER_HASH) \
+	MW_VERSION=$(MW_VERSION) \
+	MW_PATCH_VERSION=$(MW_PATCH_VERSION) \
+	docker build -t $(repo):$(MW_VERSION).$(MW_PATCH_VERSION) .
+
+.PHONY: up
+up: 
+	@docker-compose up -d 
