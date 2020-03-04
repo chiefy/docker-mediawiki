@@ -1,0 +1,12 @@
+#!/bin/bash
+
+repo=chiefy/alpine-php-mediawiki
+
+source .env
+
+docker build \
+    --no-cache \
+    --build-arg COMPOSER_HASH=${COMPOSER_HASH} \
+    --build-arg MW_VERSION=${MW_VERSION} \
+    --build-arg MW_PATCH_VERSION=${MW_PATCH_VERSION} \
+    -t ${repo}:${MW_VERSION}.${MW_PATCH_VERSION} .
