@@ -3,7 +3,13 @@ version: '3.2'
 services:
 
   mediawiki:
-      build: .
+      build:
+        context: .
+        args:
+          MW_VERSION: ${MW_VERSION}
+          MW_PATCH_VERSION: ${MW_PATCH_VERSION}
+          COMPOSER_HASH: ${COMPOSER_HASH}
+
       volumes:
         - "mediawiki:/var/www/mediawiki"
 #        - "./www/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
