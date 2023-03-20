@@ -1,7 +1,0 @@
-#!/bin/bash
-
-repo=chiefy/alpine-php-mediawiki
-source .env
-docker tag \
-     ${repo}:${MW_VERSION}.${MW_PATCH_VERSION} \
-     ${repo}:latest

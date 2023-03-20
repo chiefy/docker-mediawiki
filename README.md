@@ -1,8 +1,6 @@
 # docker-mediawiki
 
-[![Docker Repository on Quay](https://quay.io/repository/chiefy/alpine-php-mediawiki/status "Docker Repository on Quay")](https://quay.io/repository/chiefy/alpine-php-mediawiki)
-
-A working docker-compose orchestration of PHP7-fpm / nginx / mysql and mediawiki
+A working docker-compose orchestration of PHP81-fpm / nginx / mysql and mediawiki
 
 ## About
 
@@ -20,7 +18,5 @@ Some of the `volume` properties in the `docker-compose.yml` have been commented 
 
 ## TODO
 
-  * Generate `Makefile` to template some of this out for different scenarios
-  * Is there an official `alpine-nginx` container? If so, use that.
   * Enable caching
   * HTTPS/SSL cert support
