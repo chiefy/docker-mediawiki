@@ -15,6 +15,9 @@ build:
 	--build-arg MW_VERSION=$(MW_VERSION) \
 	--build-arg MW_PATCH_VERSION=$(MW_PATCH_VERSION) \
 	-t $(full_image) .
+
+.PHONY: tag-latest
+tag-latest:
 	@docker tag $(full_image) $(repo):latest
 
 .PHONY: up

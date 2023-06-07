@@ -12,8 +12,8 @@ services:
 
       volumes:
         - "mediawiki:/var/www/mediawiki"
-#        - "./www/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
-#        - "./www/images:/var/www/mediawiki/images"
+        #- "./etc/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
+        #- "./www/images:/var/www/mediawiki/images"
 
   nginx:
       image: nginx:stable-alpine
@@ -23,16 +23,12 @@ services:
       depends_on: 
         - mediawiki
       ports:
-        - "80:80"
+        - "8080:80"
 
   db:
       image: mariadb:latest
       restart: always
-      environment:
-        - "MYSQL_USER=mediawiki"
-        - "MYSQL_PASSWORD=mediawiki"
-        - "MYSQL_DATABASE=mediawiki"
-        - "MYSQL_ROOT_PASSWORD=mediawiki"
+      env_file: .env
 
 volumes:
   mediawiki:

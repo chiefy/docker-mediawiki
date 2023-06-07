@@ -4,50 +4,52 @@ ARG MW_VERSION
 ARG MW_PATCH_VERSION
 ARG COMPOSER_HASH
 
+ENV PHP_PACKAGES="\
+	php82 \
+	php82-curl \
+	php82-xml \
+	php82-fpm \
+	php82-ctype \
+	php82-gd \
+	php82-json \
+	php82-mysqli \
+	php82-pdo_mysql \
+	php82-dom \
+	php82-openssl \
+	php82-iconv \
+	php82-opcache \
+	php82-intl \
+	php82-common \
+	php82-xmlreader \
+	php82-phar \
+	php82-mbstring \
+	php82-session \
+	php82-fileinfo \
+"
+
 RUN apk add --no-cache \
-	php81 \
-	php81-curl \
-	php81-xml \
-	php81-fpm \
-	php81-ctype \
-	php81-gd \
-	php81-json \
-	php81-mysqli \
-	php81-pdo_mysql \
-	php81-dom \
-	php81-openssl \
-	php81-iconv \
-	php81-opcache \
-	php81-intl \
-	php81-common \
-	php81-xmlreader \
-	php81-phar \
-	php81-mbstring \
-	php81-session \
-	php81-fileinfo \
+	${PHP_PACKAGES} \
 	diffutils \
 	git \
-	&& apk add --no-cache --virtual=.build-dependencies wget ca-certificates 
+	ca-certificates \
+    && ln -s /usr/bin/php82 /usr/bin/php 
 
-RUN	\
-	# Install composer
-	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+# Install composer
+RUN	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php -r "if (hash_file('SHA384', 'composer-setup.php') === \"${COMPOSER_HASH}\") { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
 	&& php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
 	&& php -r "unlink('composer-setup.php');"
 
-RUN \
-	# Tweak configs
-	sed -i \
+# Tweak php-fpm and php configs
+RUN apk add --no-cache --virtual=.build-dependencies wget \
+	&& sed -i \
 	-e "s,expose_php = On,expose_php = Off,g" \
 	-e "s,;cgi.fix_pathinfo=1,cgi.fix_pathinfo=0,g" \
 	-e "s,post_max_size = 8M,post_max_size = 100M,g" \
 	-e "s,upload_max_filesize = 2M,upload_max_filesize = 100M,g" \
-	/etc/php81/php.ini \
+	/etc/php82/php.ini \
 	&& sed -i \
 	-e "s,;daemonize = yes,daemonize = no,g" \
-	-e "s,user = nobody,user = www,g" \
-	-e "s,group = nobody,group = www,g" \
 	-e "s,;chdir = /var/www,chdir = /var/www/mediawiki,g" \
 	-e "s,;listen.owner = nobody,listen.owner = www,g" \
 	-e "s,;listen.group = nobody,listen.group = www,g" \
@@ -56,7 +58,7 @@ RUN \
 	-e "s,;php_admin_flag[log_errors] = on,php_admin_flag[log_errors] = on,g" \
 	-e "s,;php_admin_value[error_log] = /var/log/fpm-php.www.log,php_admin_value[error_log] = /var/log/fpm.log,g" \
 	-e "s,;catch_workers_output = yes,catch_workers_output = yes,g" \
-	/etc/php81/php-fpm.d/www.conf \
+	/etc/php82/php-fpm.d/www.conf \
 	&& mkdir -p /var/www /var/log \
 	&& cd /tmp \
 	&& wget -nv https://releases.wikimedia.org/mediawiki/${MW_VERSION}/mediawiki-${MW_VERSION}.${MW_PATCH_VERSION}.tar.gz \
@@ -78,4 +80,4 @@ WORKDIR /var/www/mediawiki
 
 EXPOSE 9000
 
-ENTRYPOINT [ "php-fpm81", "-F" ]
+ENTRYPOINT [ "php-fpm82", "-F" ]
