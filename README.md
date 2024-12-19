@@ -1,6 +1,6 @@
 # docker-mediawiki
 
-A working docker-compose orchestration of PHP82-fpm / nginx / mysql and mediawiki using alpine docker images
+A working docker-compose orchestration of PHP84-fpm / nginx / mysql and mediawiki using alpine docker images
 
 ## About
 
@@ -8,7 +8,7 @@ I have been looking around for a decent docker-based orchestration of Mediawiki,
 
 ## Usage
 
-`docker pull ghcr.io/chiefy/alpine-mediawiki:1.38.6`
+`docker pull ghcr.io/chiefy/alpine-mediawiki:1.42.3`
 
 or
 
@@ -27,4 +27,4 @@ Some of the `volume` properties in the `docker-compose.yml` have been commented 
 ## TODO
 
   * Enable caching
-  * HTTPS/SSL cert support
+  * Fix nginx config for optimal perf

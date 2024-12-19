@@ -1,34 +1,35 @@
-version: '3.2'
-
 services:
 
   mediawiki:
-      build:
-        context: .
-        args:
-          MW_VERSION: ${MW_VERSION}
-          MW_PATCH_VERSION: ${MW_PATCH_VERSION}
-          COMPOSER_HASH: ${COMPOSER_HASH}
+    container_name: mediawiki
+    build:
+      context: .
+      args:
+        MW_VERSION: ${MW_VERSION}
+        MW_PATCH_VERSION: ${MW_PATCH_VERSION}
+        COMPOSER_HASH: ${COMPOSER_HASH}
 
-      volumes:
-        - "mediawiki:/var/www/mediawiki"
-        #- "./etc/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
-        #- "./www/images:/var/www/mediawiki/images"
+    volumes:
+      - "mediawiki:/var/www/mediawiki"
+      - "./etc/LocalSettings.php:/var/www/mediawiki/LocalSettings.php"
+      #- "./www/images:/var/www/mediawiki/images"
 
   nginx:
-      image: nginx:stable-alpine
-      volumes:
-        - "./etc/nginx.conf:/etc/nginx/nginx.conf"
-        - "mediawiki:/var/www/mediawiki"
-      depends_on: 
-        - mediawiki
-      ports:
-        - "8080:80"
+    container_name: nginx
+    image: nginx:stable-alpine
+    volumes:
+      - "./etc/nginx.conf:/etc/nginx/nginx.conf"
+      - "mediawiki:/var/www/mediawiki"
+    depends_on: 
+      - mediawiki
+    ports:
+      - "8080:80"
 
   db:
-      image: mariadb:latest
-      restart: always
-      env_file: .env
+    container_name: mariadb
+    image: mariadb:latest
+    restart: always
+    env_file: .env
 
 volumes:
   mediawiki:

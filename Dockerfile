@@ -5,26 +5,26 @@ ARG MW_PATCH_VERSION
 ARG COMPOSER_HASH
 
 ENV PHP_PACKAGES="\
-	php82 \
-	php82-curl \
-	php82-xml \
-	php82-fpm \
-	php82-ctype \
-	php82-gd \
-	php82-json \
-	php82-mysqli \
-	php82-pdo_mysql \
-	php82-dom \
-	php82-openssl \
-	php82-iconv \
-	php82-opcache \
-	php82-intl \
-	php82-common \
-	php82-xmlreader \
-	php82-phar \
-	php82-mbstring \
-	php82-session \
-	php82-fileinfo \
+	php84 \
+	php84-curl \
+	php84-xml \
+	php84-fpm \
+	php84-ctype \
+	php84-gd \
+	php84-json \
+	php84-mysqli \
+	php84-pdo_mysql \
+	php84-dom \
+	php84-openssl \
+	php84-iconv \
+	php84-opcache \
+	php84-intl \
+	php84-common \
+	php84-xmlreader \
+	php84-phar \
+	php84-mbstring \
+	php84-session \
+	php84-fileinfo \
 "
 
 RUN apk add --no-cache \
@@ -32,7 +32,7 @@ RUN apk add --no-cache \
 	diffutils \
 	git \
 	ca-certificates \
-    && ln -s /usr/bin/php82 /usr/bin/php 
+    && ln -s /usr/bin/php84 /usr/bin/php 
 
 # Install composer
 RUN	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -47,7 +47,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget \
 	-e "s,;cgi.fix_pathinfo=1,cgi.fix_pathinfo=0,g" \
 	-e "s,post_max_size = 8M,post_max_size = 100M,g" \
 	-e "s,upload_max_filesize = 2M,upload_max_filesize = 100M,g" \
-	/etc/php82/php.ini \
+	/etc/php84/php.ini \
 	&& sed -i \
 	-e "s,;daemonize = yes,daemonize = no,g" \
 	-e "s,;chdir = /var/www,chdir = /var/www/mediawiki,g" \
@@ -58,7 +58,7 @@ RUN apk add --no-cache --virtual=.build-dependencies wget \
 	-e "s,;php_admin_flag[log_errors] = on,php_admin_flag[log_errors] = on,g" \
 	-e "s,;php_admin_value[error_log] = /var/log/fpm-php.www.log,php_admin_value[error_log] = /var/log/fpm.log,g" \
 	-e "s,;catch_workers_output = yes,catch_workers_output = yes,g" \
-	/etc/php82/php-fpm.d/www.conf \
+	/etc/php84/php-fpm.d/www.conf \
 	&& mkdir -p /var/www /var/log \
 	&& cd /tmp \
 	&& wget -nv https://releases.wikimedia.org/mediawiki/${MW_VERSION}/mediawiki-${MW_VERSION}.${MW_PATCH_VERSION}.tar.gz \
@@ -80,4 +80,4 @@ WORKDIR /var/www/mediawiki
 
 EXPOSE 9000
 
-ENTRYPOINT [ "php-fpm82", "-F" ]
+ENTRYPOINT [ "php-fpm84", "-F" ]
