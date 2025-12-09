@@ -30,6 +30,9 @@ services:
     image: mariadb:latest
     restart: always
     env_file: .env
+    volumes:
+      - db:/var/lib/mysql
 
 volumes:
   mediawiki:
+  db:
