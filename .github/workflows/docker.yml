@@ -41,4 +41,4 @@ jobs:
           push: true
           tags: |
             ghcr.io/chiefy/alpine-mediawiki:latest
-            ghcr.io/chiefy/alpine-mediawiki:${{ env.MW_VERSION }}${{ env.MW_PATCH_VERSION }}            
+            ghcr.io/chiefy/alpine-mediawiki:${{ env.MW_VERSION }}.${{ env.MW_PATCH_VERSION }}            
