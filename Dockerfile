@@ -31,8 +31,7 @@ RUN apk add --no-cache \
 	${PHP_PACKAGES} \
 	diffutils \
 	git \
-	ca-certificates \
-    && ln -s /usr/bin/php84 /usr/bin/php 
+	ca-certificates 
 
 # Install composer
 RUN	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -40,7 +39,12 @@ RUN	php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 	&& php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
 	&& php -r "unlink('composer-setup.php');"
 
+#	
 # Tweak php-fpm and php configs
+#
+# sed command at end is a temp bugfix 
+# h/t https://www.yinfor.com/2025/12/a-problem-when-upgrade-mediawiki-installation.html
+#
 RUN apk add --no-cache --virtual=.build-dependencies wget \
 	&& sed -i \
 	-e "s,expose_php = On,expose_php = Off,g" \
@@ -68,11 +72,15 @@ RUN apk add --no-cache --virtual=.build-dependencies wget \
 	&& adduser -S -D -H www \
 	&& chown -R www /var/www/mediawiki \
 	&& chown -R www /var/log/ \ 
-	&& apk del .build-dependencies
+	&& apk del .build-dependencies \
+	&& sed -i \
+	"s|\\\$doc = HTMLDocument::createEmpty( \"UTF-8\" );|\\\$doc = HTMLDocument::createEmpty( \"UTF-8\" );\\t\\t\\t\\nrequire_once('vendor/wikimedia/parsoid/src/DOM/HTMLDocument.php');|" \
+	/var/www/mediawiki/vendor/wikimedia/parsoid/src/Utils/DOMCompat.php
 
 # Syntax highlight requires Python for Pygments. Uncomment the following line
 # if you plan to use SyntaxHighlight (aka SyntaxHighlight_GeSHi) extension:
-#RUN apk add --no-cache python3 && ln -s python3 /usr/bin/python
+
+# RUN apk add --no-cache python3 && ln -s python3 /usr/bin/python
 
 USER www
 
